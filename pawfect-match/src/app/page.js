@@ -1,8 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import LoadingAnimation from "../components/LoadingAnimation";
 import PetList from "../components/PetList";
+import Hero from "../components/Hero";
 
 export default function Home() {
   const [pets, setPets] = useState([]);
@@ -75,13 +78,20 @@ export default function Home() {
 
 
   return (
-    <main className="min-h-screen">
-      <PetList
-        pets={pets}
-        onStatusChange={handleStatusChange}
-        onPriorityChange={handlePriorityChange}
-        onDelete={handleDelete}
-      />
-    </main>
+    <>
+      <Navbar />
+      <main className="min-h-screen">
+        <Hero />
+        <div className="bg-base-100">
+          <PetList
+            pets={pets}
+            onStatusChange={handleStatusChange}
+            onPriorityChange={handlePriorityChange}
+            onDelete={handleDelete}
+          />
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 }

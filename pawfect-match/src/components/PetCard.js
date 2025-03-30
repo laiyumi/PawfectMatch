@@ -7,6 +7,10 @@ export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelet
     const [message, setMessage] = useState(null);
     const [messageKey, setMessageKey] = useState(0);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+    const [editValues, setEditValues] = useState({
+        status: pet.status,
+        priority: pet.priority
+    });
 
     const statusColors = {
         AVAILABLE: "badge-success",
@@ -20,26 +24,37 @@ export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelet
         HIGH: "badge-error"
     };
 
-    const handleStatusChange = async (newStatus) => {
+    const handleStatusChange = (newStatus) => {
+        setEditValues(prev => ({ ...prev, status: newStatus }));
+    };
+
+    const handlePriorityChange = (newPriority) => {
+        setEditValues(prev => ({ ...prev, priority: newPriority }));
+    };
+
+    const handleSave = async () => {
         try {
-            await onStatusChange(pet.id, newStatus);
+            if (editValues.status !== pet.status) {
+                await onStatusChange(pet.id, editValues.status);
+            }
+            if (editValues.priority !== pet.priority) {
+                await onPriorityChange(pet.id, editValues.priority);
+            }
             setMessageKey(prev => prev + 1);
-            setMessage({ text: "Status updated successfully!", type: "success" });
+            setMessage({ text: "Changes saved successfully!", type: "success" });
+            setIsEditing(false);
         } catch (error) {
             setMessageKey(prev => prev + 1);
-            setMessage({ text: "Failed to update status", type: "error" });
+            setMessage({ text: "Failed to save changes", type: "error" });
         }
     };
 
-    const handlePriorityChange = async (newPriority) => {
-        try {
-            await onPriorityChange(pet.id, newPriority);
-            setMessageKey(prev => prev + 1);
-            setMessage({ text: "Priority updated successfully!", type: "success" });
-        } catch (error) {
-            setMessageKey(prev => prev + 1);
-            setMessage({ text: "Failed to update priority", type: "error" });
-        }
+    const handleCancel = () => {
+        setIsEditing(false);
+        setEditValues({
+            status: pet.status,
+            priority: pet.priority
+        });
     };
 
     const handleDeleteClick = () => {
@@ -51,7 +66,6 @@ export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelet
         try {
             setMessageKey(prev => prev + 1);
             setMessage({ text: "Pet deleted successfully!", type: "success" });
-            // Simple timeout without nested try-catch
             setTimeout(() => {
                 onDelete(pet.id);
             }, 1000);
@@ -61,16 +75,12 @@ export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelet
         }
     };
 
-    const handleDeleteCancel = () => {
-        setShowDeleteDialog(false);
-    };
-
     return (
         <div className="card bg-base-100 shadow-xl">
             <DeleteConfirmationDialog
                 isOpen={showDeleteDialog}
                 onConfirm={handleDeleteConfirm}
-                onCancel={handleDeleteCancel}
+                onCancel={() => setShowDeleteDialog(false)}
                 petName={pet.name}
             />
             {message && (
@@ -85,18 +95,18 @@ export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelet
                 <p className="text-sm text-gray-500">{pet.animalType.name}</p>
 
                 <div className="flex gap-2 my-2">
-                    <span className={`badge ${statusColors[pet.status]}`}>
-                        {pet.status}
+                    <span className={`badge ${statusColors[editValues.status]}`}>
+                        {editValues.status}
                     </span>
-                    <span className={`badge ${priorityColors[pet.priority]}`}>
-                        {pet.priority}
+                    <span className={`badge ${priorityColors[editValues.priority]}`}>
+                        {editValues.priority}
                     </span>
                 </div>
 
                 {isEditing ? (
                     <div className="flex flex-col gap-2">
                         <select
-                            value={pet.status}
+                            value={editValues.status}
                             onChange={(e) => handleStatusChange(e.target.value)}
                             className="select select-bordered w-full"
                         >
@@ -106,7 +116,7 @@ export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelet
                         </select>
 
                         <select
-                            value={pet.priority}
+                            value={editValues.priority}
                             onChange={(e) => handlePriorityChange(e.target.value)}
                             className="select select-bordered w-full"
                         >
@@ -118,12 +128,29 @@ export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelet
                 ) : null}
 
                 <div className="card-actions justify-end mt-4">
-                    <button
-                        className="btn btn-sm btn-outline"
-                        onClick={() => setIsEditing(!isEditing)}
-                    >
-                        {isEditing ? "Done" : "Edit"}
-                    </button>
+                    {isEditing ? (
+                        <>
+                            <button
+                                className="btn btn-sm btn-success"
+                                onClick={handleSave}
+                            >
+                                Save
+                            </button>
+                            <button
+                                className="btn btn-sm btn-ghost"
+                                onClick={handleCancel}
+                            >
+                                Cancel
+                            </button>
+                        </>
+                    ) : (
+                        <button
+                            className="btn btn-sm btn-info"
+                            onClick={() => setIsEditing(true)}
+                        >
+                            Update
+                        </button>
+                    )}
                     <button
                         className="btn btn-sm btn-error"
                         onClick={handleDeleteClick}
