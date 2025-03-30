@@ -12,7 +12,7 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
     const [animalTypes, setAnimalTypes] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('all');
-    const petsPerPage = 6;
+    const petsPerPage = 9;
 
     const statusOptions = [
         { value: 'all', label: 'All Statuses' },

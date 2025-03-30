@@ -90,7 +90,7 @@ export default function PetCreationForm({ onPetCreated }) {
     };
 
     return (
-        <div className="card bg-base-100 shadow-xl">
+        <div className="card bg-base-100 shadow-xl rounded-3xl">
             {message && (
                 <FadeMessage
                     key={messageKey}
@@ -98,7 +98,7 @@ export default function PetCreationForm({ onPetCreated }) {
                     type={message.type}
                 />
             )}
-            <div className="card-body">
+            <div className="card-body ">
                 <h2 className="card-title justify-center pb-2">Add New Pet</h2>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <div className="form-control flex gap-2">
