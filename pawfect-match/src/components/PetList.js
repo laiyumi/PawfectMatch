@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PetCard from "./PetCard";
+import PetCreationForm from "./PetCreationForm";
 
 export default function PetList({ pets, onStatusChange, onPriorityChange, onDelete }) {
     const [currentPage, setCurrentPage] = useState(1);
@@ -12,6 +13,8 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
 
     return (
         <div className="container mx-auto px-4 py-8">
+            <PetCreationForm onPetCreated={() => window.location.reload()} />
+            <div className="divider my-8">Pets List</div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {currentPets.map((pet) => (
                     <PetCard

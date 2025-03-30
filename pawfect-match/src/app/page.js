@@ -23,7 +23,7 @@ export default function Home() {
       console.error("Error fetching pets:", error);
     } finally {
       // Ensure loading shows for at least 1 second
-      setTimeout(() => setLoading(false), 1000);
+      setTimeout(() => setLoading(false), 2000);
     }
   };
 
@@ -58,7 +58,6 @@ export default function Home() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this pet?")) return;
 
     try {
       const response = await fetch(`/api/pets/${id}`, {
@@ -76,7 +75,7 @@ export default function Home() {
 
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <main className="min-h-screen">
       <PetList
         pets={pets}
         onStatusChange={handleStatusChange}
