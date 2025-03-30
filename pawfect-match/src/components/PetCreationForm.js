@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import FadeMessage from "./FadeMessage";
+import { getFriendlyMessage } from "../lib/friendlyMessage";
 
 export default function PetCreationForm({ onPetCreated }) {
     const [animalTypes, setAnimalTypes] = useState([]);
@@ -73,9 +74,18 @@ export default function PetCreationForm({ onPetCreated }) {
                 setFormData(prev => ({ ...prev, animalTypeId: data.data.id }));
                 setNewTypeName("");
                 setIsAddingType(false);
+                setMessageKey(prev => prev + 1);
+                setMessage({ text: "Animal type created successfully!", type: "success" });
+            } else {
+                const userFriendlyMsg = getFriendlyMessage(data.error);
+                setMessageKey(prev => prev + 1);
+                setMessage({ text: userFriendlyMsg, type: "error" });
             }
         } catch (error) {
             console.error("Error creating animal type:", error);
+            const userFriendlyMsg = getFriendlyMessage(error.message);
+            setMessageKey(prev => prev + 1);
+            setMessage({ text: userFriendlyMsg, type: "error" });
         }
     };
 
@@ -89,28 +99,28 @@ export default function PetCreationForm({ onPetCreated }) {
                 />
             )}
             <div className="card-body">
-                <h2 className="card-title">Add New Pet</h2>
+                <h2 className="card-title justify-center pb-2">Add New Pet</h2>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Pet Name</span>
+                    <div className="form-control flex gap-2">
+                        <label className="label w-22">
+                            <span className="label-text">Pet Name *</span>
                         </label>
                         <input
                             type="text"
                             required
                             value={formData.name}
                             onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                            className="input input-bordered"
+                            className="input input-bordered flex-1"
                             placeholder="Enter pet name"
                         />
                     </div>
 
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Animal Type</span>
+                    <div className="form-control  flex gap-2">
+                        <label className="label w-22">
+                            <span className="label-text">Animal Type *</span>
                         </label>
                         {!isAddingType ? (
-                            <div className="flex gap-2">
+                            <div className="flex-1 flex gap-2">
                                 <select
                                     required
                                     value={formData.animalTypeId}
@@ -127,13 +137,13 @@ export default function PetCreationForm({ onPetCreated }) {
                                 <button
                                     type="button"
                                     onClick={() => setIsAddingType(true)}
-                                    className="btn btn-outline btn-sm"
+                                    className="btn btn-soft btn-primary"
                                 >
                                     New Type
                                 </button>
                             </div>
                         ) : (
-                            <div className="flex gap-2">
+                            <div className="flex-1 flex gap-2">
                                 <input
                                     type="text"
                                     value={newTypeName}
@@ -144,14 +154,14 @@ export default function PetCreationForm({ onPetCreated }) {
                                 <button
                                     type="button"
                                     onClick={handleCreateAnimalType}
-                                    className="btn btn-primary btn-sm"
+                                    className="btn btn-soft btn-primary"
                                 >
                                     Add
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setIsAddingType(false)}
-                                    className="btn btn-ghost btn-sm"
+                                    className="btn btn-soft"
                                 >
                                     Cancel
                                 </button>
@@ -159,14 +169,14 @@ export default function PetCreationForm({ onPetCreated }) {
                         )}
                     </div>
 
-                    <div className="form-control">
-                        <label className="label">
+                    <div className="form-control flex gap-2">
+                        <label className="label w-22">
                             <span className="label-text">Status</span>
                         </label>
                         <select
                             value={formData.status}
                             onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value }))}
-                            className="select select-bordered"
+                            className="select select-bordered flex-1"
                         >
                             <option value="AVAILABLE">Available for Adoption</option>
                             <option value="ADOPTED">Adopted</option>
@@ -174,14 +184,14 @@ export default function PetCreationForm({ onPetCreated }) {
                         </select>
                     </div>
 
-                    <div className="form-control">
-                        <label className="label">
+                    <div className="form-control flex gap-2">
+                        <label className="label w-22">
                             <span className="label-text">Priority</span>
                         </label>
                         <select
                             value={formData.priority}
                             onChange={(e) => setFormData(prev => ({ ...prev, priority: e.target.value }))}
-                            className="select select-bordered"
+                            className="select select-bordered flex-1"
                         >
                             <option value="LOW">Low</option>
                             <option value="MEDIUM">Medium</option>

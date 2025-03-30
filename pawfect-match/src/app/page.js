@@ -78,11 +78,11 @@ export default function Home() {
 
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="min-h-screen">
-        <Hero />
-        <div className="bg-base-100">
+      <main className="p-0 flex-1 text-base-content bg-base-200">
+        <Hero onPetCreated={fetchPets} />
+        <div>
           <PetList
             pets={pets}
             onStatusChange={handleStatusChange}
@@ -92,6 +92,6 @@ export default function Home() {
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

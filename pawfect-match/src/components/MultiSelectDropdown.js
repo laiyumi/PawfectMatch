@@ -34,7 +34,7 @@ export default function MultiSelectDropdown({ options, selectedValues, onChange 
                         selectedValues.length === options.length ? 'All Types' :
                             `${selectedValues.length} type(s) selected`}
                 </span>
-                <span className="ml-2">▼</span>
+                {/* <span className="ml-2">▼</span> */}
             </button>
 
             {isOpen && (

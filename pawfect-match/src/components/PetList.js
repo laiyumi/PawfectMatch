@@ -86,9 +86,9 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
 
     return (
         <div className="container mx-auto px-4 py-8">
+            <h2 className="text-2xl text-center font-semibold">Pets List</h2>
             <div className="flex justify-between items-center my-8">
-                <div className="divider divider-horizontal">Pets List</div>
-                <div className="flex items-center gap-4">
+                <div className=" flex items-center justify-between gap-4">
                     <SearchBar
                         value={searchQuery}
                         onChange={handleSearch}
@@ -123,17 +123,17 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
                             <option value="asc">Low to High</option>
                         </select>
                     )}
-                    <div className="form-control">
-                        <label className="label cursor-pointer">
-                            <span className="label-text mr-2">Table View</span>
-                            <input
-                                type="checkbox"
-                                className="toggle"
-                                checked={isTableView}
-                                onChange={(e) => setIsTableView(e.target.checked)}
-                            />
-                        </label>
-                    </div>
+                </div>
+                <div className="form-control">
+                    <label className="label cursor-pointer">
+                        <span className="label-text mr-2">Table View</span>
+                        <input
+                            type="checkbox"
+                            className="toggle"
+                            checked={isTableView}
+                            onChange={(e) => setIsTableView(e.target.checked)}
+                        />
+                    </label>
                 </div>
             </div>
 
