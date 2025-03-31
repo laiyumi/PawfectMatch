@@ -87,18 +87,18 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
     return (
         <div className="container mx-auto px-4 py-8">
             <h2 className="text-2xl text-center font-semibold">Pets List</h2>
-            <div className="flex xs:flex-col md:flex-row justify-between items-center my-8 gap-2">
+            <div className="flex max-xs:flex-col xs:flex-col md:flex-row justify-between items-center my-8 gap-4">
                 {/* search bar */}
                 <SearchBar
                     value={searchQuery}
                     onChange={handleSearch}
                 />
-                <div className="flex xs:flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex max-xs:flex-col max-xs:w-full sm:flex-row items-center justify-between gap-4">
                     {/* status dropdown */}
                     <select
                         value={selectedStatus}
                         onChange={handleStatusFilter}
-                        className="select select-bordered w-auto xs:w-full xs:select-sm lg:select-md"
+                        className="select select-bordered w-auto max-xs:w-full xs:select-sm lg:select-md"
                     >
                         {statusOptions.map(option => (
                             <option key={option.value} value={option.value}>
@@ -122,7 +122,7 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
                         <select
                             value={prioritySort}
                             onChange={handlePrioritySort}
-                            className="select select-bordered w-auto xs:w-full xs:select-sm lg:select-md"
+                            className="select select-bordered w-auto max-xs:w-full xs:select-sm lg:select-md"
                         >
                             <option value="none">Sort by Priority</option>
                             <option value="desc">High to Low</option>
@@ -130,8 +130,6 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
                         </select>
                     )}
                 </div>
-
-                <div className="flex-1"></div>
 
                 {/* toggle table/card view */}
                 <div className="form-control">

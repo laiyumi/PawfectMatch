@@ -23,11 +23,11 @@ export default function MultiSelectDropdown({ options, selectedValues, onChange 
     };
 
     return (
-        <div className="relative xs:w-full" ref={dropdownRef}>
+        <div className="relative max-xs:w-full" ref={dropdownRef}>
             <button
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className="select xs:select-sm lg:select-md select-bordered lg:w-[200px] text-left flex justify-between items-center"
+                className="select max-xs:w-full xs:select-sm lg:select-md select-bordered lg:w-[200px] text-left flex justify-between items-center"
             >
                 <span className="truncate">
                     {selectedValues.length === 0 ? 'Select Animal Types' :

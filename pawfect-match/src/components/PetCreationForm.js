@@ -101,6 +101,7 @@ export default function PetCreationForm({ onPetCreated }) {
             <div className="card-body ">
                 <h2 className="card-title justify-center pb-2">Add New Pet</h2>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    {/* Animal name input */}
                     <div className="form-control flex gap-2">
                         <label className="label w-22">
                             <span className="label-text">Pet Name *</span>
@@ -114,13 +115,13 @@ export default function PetCreationForm({ onPetCreated }) {
                             placeholder="Enter pet name"
                         />
                     </div>
-
-                    <div className="form-control  flex gap-2">
+                    {/* Animal type input */}
+                    <div className="form-control flex gap-2">
                         <label className="label w-22">
                             <span className="label-text">Animal Type *</span>
                         </label>
                         {!isAddingType ? (
-                            <div className="flex-1 flex gap-2">
+                            <div className="flex-1 flex gap-2 max-xs:flex-col">
                                 <select
                                     required
                                     value={formData.animalTypeId}
@@ -143,7 +144,7 @@ export default function PetCreationForm({ onPetCreated }) {
                                 </button>
                             </div>
                         ) : (
-                            <div className="flex-1 flex gap-2">
+                            <div className="flex-1 flex gap-2 max-xs:flex-col">
                                 <input
                                     type="text"
                                     value={newTypeName}
@@ -151,20 +152,22 @@ export default function PetCreationForm({ onPetCreated }) {
                                     className="input input-bordered flex-1"
                                     placeholder="Enter new type"
                                 />
-                                <button
-                                    type="button"
-                                    onClick={handleCreateAnimalType}
-                                    className="btn btn-soft btn-primary"
-                                >
-                                    Add
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => setIsAddingType(false)}
-                                    className="btn btn-soft"
-                                >
-                                    Cancel
-                                </button>
+                                <div className="flex-1 flex w-full gap-x-2">
+                                    <button
+                                        type="button"
+                                        onClick={handleCreateAnimalType}
+                                        className="btn btn-soft btn-primary w-1/2"
+                                    >
+                                        Add
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsAddingType(false)}
+                                        className="btn btn-soft w-1/2"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </div>
