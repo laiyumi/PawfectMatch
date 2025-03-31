@@ -121,12 +121,12 @@ export default function PetCreationForm({ onPetCreated }) {
                             <span className="label-text">Animal Type *</span>
                         </label>
                         {!isAddingType ? (
-                            <div className="flex-1 flex gap-2 max-xs:flex-col">
+                            <div className="flex-1 flex gap-2 flex-col sm:flex-row items-stretch">
                                 <select
                                     required
                                     value={formData.animalTypeId}
                                     onChange={(e) => setFormData(prev => ({ ...prev, animalTypeId: e.target.value }))}
-                                    className="select select-bordered flex-1"
+                                    className="select select-md select-bordered flex-1 min-h-[2.5rem]"
                                 >
                                     <option value="">Select animal type</option>
                                     {animalTypes.map(type => (
@@ -144,26 +144,26 @@ export default function PetCreationForm({ onPetCreated }) {
                                 </button>
                             </div>
                         ) : (
-                            <div className="flex-1 flex gap-2 max-xs:flex-col">
+                            <div className="flex-1 flex gap-2 flex-col sm:flex-row items-stretch">
                                 <input
                                     type="text"
                                     value={newTypeName}
                                     onChange={(e) => setNewTypeName(e.target.value)}
-                                    className="input input-bordered flex-1"
+                                    className="input input-bordered flex-1 input-md min-h-[2.5rem]"
                                     placeholder="Enter new type"
                                 />
-                                <div className="flex-1 flex w-full gap-x-2">
+                                <div className="flex-1 flex justify-between gap-2 w-full">
                                     <button
                                         type="button"
                                         onClick={handleCreateAnimalType}
-                                        className="btn btn-soft btn-primary w-1/2"
+                                        className="btn btn-soft btn-primary flex-1"
                                     >
                                         Add
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => setIsAddingType(false)}
-                                        className="btn btn-soft w-1/2"
+                                        className="btn btn-soft"
                                     >
                                         Cancel
                                     </button>
