@@ -2,8 +2,11 @@ import { useState } from "react";
 import FadeMessage from "./FadeMessage";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import { animalIcons } from "../lib/animalIcons";
+import { useGlobalMessage } from "../app/GlobalMessageContext";
 
 export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelete }) {
+    const { showMessage } = useGlobalMessage();
+
     const [isEditing, setIsEditing] = useState(false);
     const [message, setMessage] = useState(null);
     const [messageKey, setMessageKey] = useState(0);
@@ -54,9 +57,11 @@ export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelet
             if (editValues.priority !== pet.priority) {
                 await onPriorityChange(pet.id, editValues.priority);
             }
-            setMessageKey(prev => prev + 1);
-            setMessage({ text: "Changes saved successfully!", type: "success" });
+            // setMessageKey(prev => prev + 1);
+            // setMessage({ text: "Changes saved successfully!", type: "success" });
+            showMessage({ text: "Changes saved successfully!", type: "success" })
             setIsEditing(false);
+
         } catch (error) {
             setMessageKey(prev => prev + 1);
             setMessage({ text: "Failed to save changes", type: "error" });
@@ -90,113 +95,116 @@ export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelet
     };
 
     return (
-        <div className="card bg-base-100 shadow-xl rounded-3xl">
+        <>
+            {/* <FadeMessage
+                key={messageKey}
+                message={message.text}
+                type={message.type}
+                onClose={() => setMessage(null)}
+            /> */}
 
-            <DeleteConfirmationDialog
-                isOpen={showDeleteDialog}
-                onConfirm={handleDeleteConfirm}
-                onCancel={() => setShowDeleteDialog(false)}
-                petName={pet.name}
-            />
-            {message && (
-                <FadeMessage
-                    key={messageKey}
-                    message={message.text}
-                    type={message.type}
+
+            <div className="card bg-base-100 shadow-xl rounded-3xl">
+                <DeleteConfirmationDialog
+                    isOpen={showDeleteDialog}
+                    onConfirm={handleDeleteConfirm}
+                    onCancel={() => setShowDeleteDialog(false)}
+                    petName={pet.name}
                 />
-            )}
-            <div className="card-body">
-                <div className="flex justify-between align-middle">
-                    <span className="text-xl">{pet.name}</span>
-                    {/* <span className="text-sm text-gray-500">{pet.animalType.name}</span> */}
-                    {/* <span className="text-3xl ">{animalIcons[pet.animalType.name] || animalIcons.Unknown}</span> */}
-                    <img
-                        src={animalIcons[pet.animalType.name] || animalIcons.Unknown}
-                        alt={pet.animalType.name}
-                        className="w-8 h-8"
-                    />
-                </div>
-                <div className="flex gap-2 my-2">
-                    <div className="flex gap-2 place-items-center">
-                        <div className="inline-grid *:[grid-area:1/1]">
-                            <div className={`status ${statusColors[editValues.status]} animate-ping`}></div>
-                            <div className={`status ${statusColors[editValues.status]}`}></div>
+
+                <div className="card-body">
+                    <div className="flex justify-between align-middle">
+                        <span className="text-xl">{pet.name}</span>
+                        {/* <span className="text-sm text-gray-500">{pet.animalType.name}</span> */}
+                        {/* <span className="text-3xl ">{animalIcons[pet.animalType.name] || animalIcons.Unknown}</span> */}
+                        <img
+                            src={animalIcons[pet.animalType.name] || animalIcons.Unknown}
+                            alt={pet.animalType.name}
+                            className="w-8 h-8"
+                        />
+                    </div>
+                    <div className="flex gap-2 my-2">
+                        <div className="flex gap-2 place-items-center">
+                            <div className="inline-grid *:[grid-area:1/1]">
+                                <div className={`status ${statusColors[editValues.status]} animate-ping`}></div>
+                                <div className={`status ${statusColors[editValues.status]}`}></div>
+                            </div>
+                            <span>{statusLabels[editValues.status]}</span>
                         </div>
-                        <span>{statusLabels[editValues.status]}</span>
+
+                        <span className={`badge ${priorityColors[editValues.priority]}`}>
+                            {priorityLabels[editValues.priority]}
+                        </span>
                     </div>
 
-                    <span className={`badge ${priorityColors[editValues.priority]}`}>
-                        {priorityLabels[editValues.priority]}
-                    </span>
-                </div>
-
-                {isEditing ? (
-                    <div className="flex flex-col gap-2">
-                        <div className="flex">
-                            <label className="label w-22">
-                                <span className="label-text">Status</span>
-                            </label>
-                            <select
-                                value={editValues.status}
-                                onChange={(e) => handleStatusChange(e.target.value)}
-                                className="select select-bordered w-full xs:select-sm lg:select-md"
-                            >
-                                <option value="AVAILABLE">Available</option>
-                                <option value="ADOPTED">Adopted</option>
-                                <option value="IN_CARE">In Care</option>
-                            </select>
-                        </div>
-                        <div className="flex">
-                            <label className="label w-22">
-                                <span className="label-text">Priority</span>
-                            </label>
-                            <select
-                                value={editValues.priority}
-                                onChange={(e) => handlePriorityChange(e.target.value)}
-                                className="select select-bordered w-full xs:select-sm lg:select-md"
-                            >
-                                <option value="LOW">Low</option>
-                                <option value="MEDIUM">Medium</option>
-                                <option value="HIGH">High</option>
-                            </select>
-                        </div>
-                    </div>
-                ) : null}
-
-                <div className="card-actions justify-end mt-4">
                     {isEditing ? (
-                        <>
-                            <button
-                                className="btn btn-sm btn-primary"
-                                onClick={handleSave}
-                            >
-                                Save
-                            </button>
-                            <button
-                                className="btn btn-sm btn-ghost"
-                                onClick={handleCancel}
-                            >
-                                Cancel
-                            </button>
-                        </>
-                    ) : (
-                        <>
-                            <button
-                                className="btn btn-sm btn-primary btn-soft"
-                                onClick={() => setIsEditing(true)}
-                            >
-                                Update
-                            </button>
-                            <button
-                                className="btn btn-sm"
-                                onClick={handleDeleteClick}
-                            >
-                                Delete
-                            </button>
-                        </>
-                    )}
+                        <div className="flex flex-col gap-2">
+                            <div className="flex">
+                                <label className="label w-22">
+                                    <span className="label-text">Status</span>
+                                </label>
+                                <select
+                                    value={editValues.status}
+                                    onChange={(e) => handleStatusChange(e.target.value)}
+                                    className="select select-bordered w-full xs:select-sm lg:select-md"
+                                >
+                                    <option value="AVAILABLE">Available</option>
+                                    <option value="ADOPTED">Adopted</option>
+                                    <option value="IN_CARE">In Care</option>
+                                </select>
+                            </div>
+                            <div className="flex">
+                                <label className="label w-22">
+                                    <span className="label-text">Priority</span>
+                                </label>
+                                <select
+                                    value={editValues.priority}
+                                    onChange={(e) => handlePriorityChange(e.target.value)}
+                                    className="select select-bordered w-full xs:select-sm lg:select-md"
+                                >
+                                    <option value="LOW">Low</option>
+                                    <option value="MEDIUM">Medium</option>
+                                    <option value="HIGH">High</option>
+                                </select>
+                            </div>
+                        </div>
+                    ) : null}
+
+                    <div className="card-actions justify-end mt-4">
+                        {isEditing ? (
+                            <>
+                                <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={handleSave}
+                                >
+                                    Save
+                                </button>
+                                <button
+                                    className="btn btn-sm btn-ghost"
+                                    onClick={handleCancel}
+                                >
+                                    Cancel
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <button
+                                    className="btn btn-sm btn-primary btn-soft"
+                                    onClick={() => setIsEditing(true)}
+                                >
+                                    Update
+                                </button>
+                                <button
+                                    className="btn btn-sm"
+                                    onClick={handleDeleteClick}
+                                >
+                                    Delete
+                                </button>
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 } 

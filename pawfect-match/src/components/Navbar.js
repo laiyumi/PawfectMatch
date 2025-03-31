@@ -7,7 +7,7 @@ export default function Navbar() {
     return (
         <div className="navbar bg-base-100 shadow-md py-6">
             <div className="flex-1 text-center">
-                <Link href="/" className="text-2xl font-bold text-primary">
+                <Link href="/" className="text-3xl font-bold text-primary chewy-regular">
                     Pawfect Match
                 </Link>
             </div>

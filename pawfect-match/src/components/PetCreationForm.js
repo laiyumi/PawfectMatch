@@ -149,7 +149,7 @@ export default function PetCreationForm({ onPetCreated }) {
                                     value={newTypeName}
                                     onChange={(e) => setNewTypeName(e.target.value)}
                                     className="input input-bordered flex-1"
-                                    placeholder="Enter new animal type"
+                                    placeholder="Enter new type"
                                 />
                                 <button
                                     type="button"

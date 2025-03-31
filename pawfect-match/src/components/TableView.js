@@ -56,13 +56,13 @@ export default function TableView({
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     className="xs:w-3 xs:h-3 lg:w-4 lg:h-4"
                 >
                     <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
                     />
                 </svg>
@@ -72,13 +72,13 @@ export default function TableView({
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 className="w-3 h-3 lg:w-4 lg:h-4"
             >
                 <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"
                 />
             </svg>
@@ -87,13 +87,13 @@ export default function TableView({
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 className="w-3 h-3 lg:w-4 lg:h-4"
             >
                 <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
                 />
             </svg>
@@ -242,7 +242,7 @@ export default function TableView({
                                     Priority {getSortIcon("priority")}
                                 </span>
                             </th>
-                            <th className="xs:text-xs lg:text-base">Update</th>
+                            <th className="xs:text-xs lg:text-base md:w-[130px] xs:w-[100px]">Update</th>
                             <th className="xs:text-xs lg:text-base">Actions</th>
                         </tr>
                     </thead>
@@ -282,35 +282,39 @@ export default function TableView({
                                         </select>
                                     </td>
                                     <td>
-                                        <div className="flex gap-2">
+                                        <div className="flex gap-2 md:w-[130px] xs:w-[100px] justify-start">
                                             {editingPetId === pet.id ? (
                                                 <>
                                                     <button
-                                                        className="btn btn-success lg:btn-sm xs:btn-xs"
+                                                        className="btn btn-success lg:btn-sm xs:btn-xs "
                                                         onClick={() => handleUpdate(pet)}
                                                     >
                                                         Save
                                                     </button>
                                                     <button
-                                                        className="btn btn-ghost lg:btn-sm xs:btn-xs"
+                                                        className="btn btn-ghost lg:btn-sm xs:btn-xs "
                                                         onClick={() => handleCancel(pet.id)}
                                                     >
                                                         Cancel
                                                     </button>
                                                 </>
                                             ) : (
-                                                <button
-                                                    className="btn btn-info lg:btn-sm xs:btn-xs"
-                                                    onClick={() => handleUpdate(pet)}
-                                                >
-                                                    Update
-                                                </button>
+                                                <>
+                                                    <button
+                                                        className="btn btn-primary lg:btn-sm xs:btn-xs"
+                                                        onClick={() => handleUpdate(pet)}
+                                                    >
+                                                        Update
+                                                    </button>
+                                                    {/* Invisible button to preserve width spacing */}
+                                                    <span className="w-full invisible">Cancel</span>
+                                                </>
                                             )}
                                         </div>
                                     </td>
                                     <td>
                                         <button
-                                            className="btn btn-error lg:btn-sm xs:btn-xs"
+                                            className="btn lg:btn-sm xs:btn-xs"
                                             onClick={() => handleDeleteClick(pet)}
                                         >
                                             Delete

@@ -1,23 +1,36 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-export default function FadeMessage({ message, type = 'success', duration = 3000 }) {
+export default function FadeMessage({ message, type = "success", duration = 3000, onClose }) {
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsVisible(false);
+            setTimeout(() => {
+                if (onClose) onClose();
+            }, 500); // Allow fade-out to finish
         }, duration);
 
         return () => clearTimeout(timer);
-    }, [duration]);
+    }, [duration, onClose]);
 
     if (!isVisible) return null;
 
-    const alertClass = type === 'error' ? 'alert-error' : 'alert-success';
+    const alertClass = type === "error" ? "alert-error" : "alert-success";
+
+    const alertIcon = type === "error" ? (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>) : (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+    );
 
     return (
-        <div className={`alert ${alertClass} fixed top-4 right-4 w-auto max-w-sm transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`alert ${alertClass} fixed top-4 right-4 z-50 max-w-sm transition-opacity duration-500`}>
+            {alertIcon}
             <span>{message}</span>
         </div>
     );
-} 
+}

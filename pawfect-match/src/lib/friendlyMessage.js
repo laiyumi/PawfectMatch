@@ -1,7 +1,7 @@
 const messagePatterns = [
     {
         match: /unique constraint/i,
-        message: "That already exists. Please choose a different name.",
+        message: "That already exists. Please select it from the dropdown list.",
     },
     {
         match: /record not found/i,

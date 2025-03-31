@@ -9,6 +9,12 @@
   --breakpoint-xs: 30rem;
 }
 
+.chewy-regular {
+  font-family: "Chewy", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;
