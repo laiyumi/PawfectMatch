@@ -10,4 +10,11 @@ module.exports = {
     daisyui: {
         themes: ["light", "dark", "cupcake", "bumblebee", "pastel", "winter"],
     },
+    theme: {
+        extend: {
+            fontFamily: {
+                chewy: ['"Chewy"', 'cursive'],
+            },
+        },
+    },
 } 
