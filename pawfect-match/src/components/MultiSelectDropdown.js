@@ -23,18 +23,17 @@ export default function MultiSelectDropdown({ options, selectedValues, onChange 
     };
 
     return (
-        <div className="relative" ref={dropdownRef}>
+        <div className="relative xs:w-full" ref={dropdownRef}>
             <button
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className="select select-bordered select-sm w-[200px] text-left flex justify-between items-center"
+                className="select xs:select-sm lg:select-md select-bordered lg:w-[200px] text-left flex justify-between items-center"
             >
                 <span className="truncate">
                     {selectedValues.length === 0 ? 'Select Animal Types' :
                         selectedValues.length === options.length ? 'All Types' :
                             `${selectedValues.length} type(s) selected`}
                 </span>
-                {/* <span className="ml-2">▼</span> */}
             </button>
 
             {isOpen && (
@@ -43,13 +42,13 @@ export default function MultiSelectDropdown({ options, selectedValues, onChange 
                         <label className="flex items-center p-2 hover:bg-base-200 rounded cursor-pointer">
                             <input
                                 type="checkbox"
-                                className="checkbox checkbox-sm"
+                                className="checkbox xs:checkbox-sm"
                                 checked={selectedValues.length === options.length}
                                 onChange={() => {
                                     onChange(selectedValues.length === options.length ? [] : options.map(opt => opt.id));
                                 }}
                             />
-                            <span className="ml-2">Select All</span>
+                            <span className="ml-2 xs:text-xs">Select All</span>
                         </label>
                         <div className="divider my-1"></div>
                         {options.map(option => (
@@ -59,11 +58,11 @@ export default function MultiSelectDropdown({ options, selectedValues, onChange 
                             >
                                 <input
                                     type="checkbox"
-                                    className="checkbox checkbox-sm"
+                                    className="checkbox xs:checkbox-sm"
                                     checked={selectedValues.includes(option.id)}
                                     onChange={() => handleToggle(option.id)}
                                 />
-                                <span className="ml-2">{option.name}</span>
+                                <span className="ml-2 xs:text-xs">{option.name}</span>
                             </label>
                         ))}
                     </div>

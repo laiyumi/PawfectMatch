@@ -139,7 +139,7 @@ export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelet
                             <select
                                 value={editValues.status}
                                 onChange={(e) => handleStatusChange(e.target.value)}
-                                className="select select-bordered w-full"
+                                className="select select-bordered w-full xs:select-sm lg:select-md"
                             >
                                 <option value="AVAILABLE">Available</option>
                                 <option value="ADOPTED">Adopted</option>
@@ -153,7 +153,7 @@ export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelet
                             <select
                                 value={editValues.priority}
                                 onChange={(e) => handlePriorityChange(e.target.value)}
-                                className="select select-bordered w-full"
+                                className="select select-bordered w-full xs:select-sm lg:select-md"
                             >
                                 <option value="LOW">Low</option>
                                 <option value="MEDIUM">Medium</option>

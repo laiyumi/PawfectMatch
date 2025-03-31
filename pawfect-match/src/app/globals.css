@@ -5,6 +5,10 @@
 @tailwind components;
 @tailwind utilities; */
 
+@theme {
+  --breakpoint-xs: 30rem;
+}
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;
