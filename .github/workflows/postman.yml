@@ -1,32 +1,17 @@
-name: Run Postman Collection from Postman Cloud
+name: Automated API tests using Postman CLI
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+on: push
 
 jobs:
-  postman-test:
+  automated-api-tests:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install Newman
-        run: npm install -g newman
-
-      - name: Download collection from Postman
+      - uses: actions/checkout@v4
+      - name: Install Postman CLI
         run: |
-          curl --location \
-            --header "X-Api-Key: ${{ secrets.POSTMAN_API_KEY }}" \
-            https://api.getpostman.com/collections/26812245-f604e387-3d46-4a88-af8c-0a85d9850e78 \
-            | jq -r '.collection' > collection.json
-
-      - name: Run Newman tests
+          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      - name: Run API tests
         run: |
-          newman run collection.json \
-            # --environment environment.json \
-            --reporters cli,json \
-            --reporter-json-export newman-report.json
+          postman collection run "26812245-f604e387-3d46-4a88-af8c-0a85d9850e78"
