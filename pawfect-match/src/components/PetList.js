@@ -3,6 +3,12 @@ import PetCard from "./PetCard";
 import TableView from "./TableView";
 import MultiSelectDropdown from "./MultiSelectDropdown";
 import SearchBar from "./SearchBar";
+import { Chewy } from 'next/font/google';
+
+const chewy = Chewy({
+    weight: '400',
+    subsets: ['latin'],
+});
 
 export default function PetList({ pets, onStatusChange, onPriorityChange, onDelete }) {
     const [currentPage, setCurrentPage] = useState(1);
@@ -86,7 +92,7 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <h2 className="text-2xl text-center font-semibold">Pets List</h2>
+            <h2 className={`text-2xl text-center ${chewy.className}`}>Pets List</h2>
             <div className="flex max-xs:flex-col xs:flex-col md:flex-row justify-between items-center my-8 gap-4">
                 {/* search bar */}
                 <SearchBar
@@ -98,7 +104,7 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
                     <select
                         value={selectedStatus}
                         onChange={handleStatusFilter}
-                        className="select select-bordered w-auto max-xs:w-full xs:select-sm lg:select-md"
+                        className="select select-bordered w-auto max-xs:w-full xs:select-sm lg:select-md "
                     >
                         {statusOptions.map(option => (
                             <option key={option.value} value={option.value}>
