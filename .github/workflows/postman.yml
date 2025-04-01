@@ -2,9 +2,9 @@ name: Run Postman Collection from Postman Cloud
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   postman-test:
@@ -21,7 +21,7 @@ jobs:
         run: |
           curl --location \
             --header "X-Api-Key: ${{ secrets.POSTMAN_API_KEY }}" \
-            https://api.getpostman.com/collections/26812245-f604e387-3d46-4a88-af8c-0a85d9850e78" \
+            https://api.getpostman.com/collections/26812245-f604e387-3d46-4a88-af8c-0a85d9850e78 \
             | jq -r '.collection' > collection.json
 
       - name: Run Newman tests
