@@ -14,5 +14,4 @@ jobs:
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
       - name: Run API tests
         run: |
-          postman collection run "26812245-f604e387-3d46-4a88-af8c-0a85d9850e78" \
-          --variable "base_url=https://pawfect-match-orpin.vercel.app/api"
+          postman collection run "26812245-f604e387-3d46-4a88-af8c-0a85d9850e78" -e "26812245-f366a8d9-1845-4123-b355-5c6a68bcdd4b"
