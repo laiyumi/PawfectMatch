@@ -62,7 +62,11 @@ export default function MultiSelectDropdown({ options, selectedValues, onChange 
                                     checked={selectedValues.includes(option.id)}
                                     onChange={() => handleToggle(option.id)}
                                 />
-                                <span className="ml-2 xs:text-xs">{option.name}</span>
+                                <span className="ml-2 xs:text-xs">
+                                    {/* {option.name} */}
+                                    {option.name}
+                                    {option._count?.pets ? ` (${option._count.pets})` : ''}
+                                </span>
                             </label>
                         ))}
                     </div>

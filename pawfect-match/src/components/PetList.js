@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import PetCard from "./PetCard";
 import TableView from "./TableView";
@@ -20,12 +21,25 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
     const [selectedStatus, setSelectedStatus] = useState('all');
     const petsPerPage = 9;
 
+    // Count the number of pets for each status
+    const statusCounts = pets.reduce((acc, pet) => {
+        acc[pet.status] = (acc[pet.status] || 0) + 1;
+        return acc;
+    }, {});
+
     const statusOptions = [
-        { value: 'all', label: 'All Statuses' },
-        { value: 'AVAILABLE', label: 'Available' },
-        { value: 'ADOPTED', label: 'Adopted' },
-        { value: 'IN_CARE', label: 'In Care' }
+        { value: 'all', label: "All Statuses" },
+        { value: 'AVAILABLE', label: `Available (${statusCounts['AVAILABLE'] || 0})` },
+        { value: 'ADOPTED', label: `Adopted (${statusCounts['ADOPTED'] || 0})` },
+        { value: 'IN_CARE', label: `In Care (${statusCounts['IN_CARE'] || 0})` }
     ];
+
+    // Count the number of pets for each animal type
+    const animalTypeCounts = pets.reduce((acc, pet) => {
+        const typeId = pet.animalType.id;
+        acc[typeId] = (acc[typeId] || 0) + 1;
+        return acc;
+    }, {});
 
     // Fetch animal types
     useEffect(() => {
@@ -92,7 +106,7 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <h2 className={`text-2xl text-center ${chewy.className}`}>Pets List</h2>
+            <h2 className={`text-2xl text-center ${chewy.className}`}>Pets List <span>({filteredPets.length})</span></h2>
             <div className="flex max-xs:flex-col xs:flex-col md:flex-row justify-between items-center my-8 gap-4">
                 {/* search bar */}
                 <SearchBar
