@@ -62,8 +62,8 @@ export default function PetCreationForm({ onPetCreated }) {
 
     const handleCreateAnimalType = async () => {
         if (!newTypeName.trim()) {
-            // setMessageKey(prev => prev + 1);
-            // setMessage({ text: "Animal type name is required", type: "error" });
+            setMessageKey(prev => prev + 1);
+            setMessage({ text: "Please enter an animal type", type: "error" });
             return;
         };
         try {
@@ -116,7 +116,7 @@ export default function PetCreationForm({ onPetCreated }) {
                             value={formData.name}
                             onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                             className="input input-bordered flex-1"
-                            placeholder="Enter pet name"
+                            placeholder="Enter a pet name"
                         />
                     </div>
                     {/* Animal type input */}
@@ -174,6 +174,7 @@ export default function PetCreationForm({ onPetCreated }) {
                                     </button>
                                 </div>
                             </div>
+
                         )}
                     </div>
 
