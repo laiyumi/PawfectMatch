@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import PetCard from "./PetCard";
 import TableView from "./TableView";
@@ -131,7 +130,7 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
     return (
         <div className="container mx-auto px-4 py-8">
             <h2 className={`text-2xl text-center ${chewy.className}`}>Pets List <span>({filteredPets.length})</span></h2>
-            <div className="flex flex-col sm:flex-row justify-between items-center my-8 gap-4">
+            <div className="flex flex-col gap-4 xl:flex-row justify-between items-center xl:items-center my-8">
                 {/* search bar */}
                 <SearchBar
                     value={searchQuery}
@@ -242,4 +241,4 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
             )}
         </div>
     );
-} 
+}

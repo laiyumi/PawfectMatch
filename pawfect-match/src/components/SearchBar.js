@@ -1,11 +1,11 @@
 export default function SearchBar({ value, onChange }) {
     return (
         <div className="form-control max-xs:w-full sm:max-w-[300px]">
-            <div className="relative w-full">
+            <div className="relative w-full flex">
                 <input
                     type="text"
                     placeholder="Enter a pet name"
-                    className="input input-bordered xs:input-sm lg:input-md lg:w-[250px] pl-10"
+                    className="input input-bordered xs:input-sm lg:input-md lg:w-[250px] pl-10 flex-1"
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
                 />
