@@ -3,7 +3,6 @@
 import { createContext, useContext, useState, useCallback } from "react";
 import FadeMessage from "../components/FadeMessage";
 
-
 const GlobalMessageContext = createContext();
 
 export const useGlobalMessage = () => useContext(GlobalMessageContext);

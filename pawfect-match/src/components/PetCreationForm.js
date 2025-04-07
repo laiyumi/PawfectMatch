@@ -33,6 +33,7 @@ export default function PetCreationForm({ onPetCreated }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
             const response = await fetch("/api/pets", {
                 method: "POST",
@@ -66,6 +67,13 @@ export default function PetCreationForm({ onPetCreated }) {
             setMessage({ text: "Please enter an animal type", type: "error" });
             return;
         };
+
+        if (newTypeName.trim().length < 3) {
+            setMessageKey(prev => prev + 1);
+            setMessage({ text: "Please enter a valid animal type.", type: "error" });
+            return;
+        }
+
         try {
             const response = await fetch("/api/animal-types", {
                 method: "POST",

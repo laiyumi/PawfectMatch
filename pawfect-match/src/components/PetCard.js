@@ -1,5 +1,4 @@
 import { useState } from "react";
-import FadeMessage from "./FadeMessage";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import { animalIcons } from "../lib/animalIcons";
 import { useGlobalMessage } from "../app/GlobalMessageContext";
@@ -57,8 +56,6 @@ export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelet
             if (editValues.priority !== pet.priority) {
                 await onPriorityChange(pet.id, editValues.priority);
             }
-            // setMessageKey(prev => prev + 1);
-            // setMessage({ text: "Changes saved successfully!", type: "success" });
             showMessage({ text: "Changes saved successfully!", type: "success" })
             setIsEditing(false);
 
@@ -96,14 +93,6 @@ export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelet
 
     return (
         <>
-            {/* <FadeMessage
-                key={messageKey}
-                message={message.text}
-                type={message.type}
-                onClose={() => setMessage(null)}
-            /> */}
-
-
             <div className="card bg-base-100 shadow-xl rounded-3xl">
                 <DeleteConfirmationDialog
                     isOpen={showDeleteDialog}
@@ -115,8 +104,6 @@ export default function PetCard({ pet, onStatusChange, onPriorityChange, onDelet
                 <div className="card-body">
                     <div className="flex justify-between align-middle">
                         <span className="text-xl">{pet.name}</span>
-                        {/* <span className="text-sm text-gray-500">{pet.animalType.name}</span> */}
-                        {/* <span className="text-3xl ">{animalIcons[pet.animalType.name] || animalIcons.Unknown}</span> */}
                         <img
                             src={animalIcons[pet.animalType.name] || animalIcons.Unknown}
                             alt={pet.animalType.name}

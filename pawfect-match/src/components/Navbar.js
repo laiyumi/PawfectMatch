@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import ThemeDropdown from "../components/ThemeDropdown";
 import { Chewy } from 'next/font/google';
 
 const chewy = Chewy({

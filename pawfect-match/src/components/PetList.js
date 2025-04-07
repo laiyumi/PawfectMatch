@@ -19,6 +19,7 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
     const [animalTypes, setAnimalTypes] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('all');
+    const [isLoading, setIsLoading] = useState(false);
     const petsPerPage = 9;
 
     // Fetch animal types
@@ -29,6 +30,11 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
                 const data = await response.json();
                 if (data.success) {
                     setAnimalTypes(data.data);
+
+                    // Add this line to auto-select all types if none selected
+                    // setSelectedAnimalTypes(prev =>
+                    //     prev.length === 0 ? data.data.map(type => type.id) : prev
+                    // );
                 }
             } catch (error) {
                 console.error("Error fetching animal types:", error);
@@ -36,6 +42,28 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
         };
         fetchAnimalTypes();
     }, []);
+
+    useEffect(() => {
+        const refreshTypes = async () => {
+            try {
+                const response = await fetch("/api/animal-types");
+                const data = await response.json();
+                if (data.success) {
+                    setAnimalTypes(data.data);
+
+                    // Auto-select any new types not already in selectedAnimalTypes
+                    const newTypeIds = data.data.map(type => type.id);
+                    setSelectedAnimalTypes(prev => {
+                        const merged = Array.from(new Set([...prev, ...newTypeIds]));
+                        return merged;
+                    });
+                }
+            } catch (error) {
+                console.error("Error refreshing animal types:", error);
+            }
+        };
+        refreshTypes();
+    }, [pets]);
 
     // Search and filter pets
     const filteredPets = pets
@@ -129,6 +157,9 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
 
     return (
         <div className="container mx-auto px-4 py-8">
+            {isLoading && (
+                <span className="loading loading-dots loading-md"></span>
+            )}
             <h2 className={`text-2xl text-center ${chewy.className}`}>Pets List <span>({filteredPets.length})</span></h2>
             <div className="flex flex-col gap-4 xl:flex-row justify-between items-center xl:items-center my-8">
                 {/* search bar */}
@@ -202,6 +233,7 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
                     onStatusChange={onStatusChange}
                     onPriorityChange={onPriorityChange}
                     onDelete={onDelete}
+                    setIsLoading={setIsLoading}
                 />
             ) : (
                 <>
@@ -213,6 +245,7 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
                                 onStatusChange={onStatusChange}
                                 onPriorityChange={onPriorityChange}
                                 onDelete={onDelete}
+                                setIsLoading={setIsLoading}
                             />
                         ))}
                     </div>
