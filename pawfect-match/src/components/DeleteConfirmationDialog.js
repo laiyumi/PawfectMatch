@@ -6,7 +6,7 @@ export default function DeleteConfirmationDialog({ isOpen, onConfirm, onCancel, 
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-sm w-full mx-4">
                 <h3 className="text-lg font-bold mb-4">Delete Confirmation</h3>
                 <p className="mb-6">
-                    Are you sure you want to delete {petName}? This action cannot be undone.
+                    Are you sure you want to delete <span className="font-semibold">{petName}</span>? This action cannot be undone.
                 </p>
                 <div className="flex justify-end gap-2">
                     <button

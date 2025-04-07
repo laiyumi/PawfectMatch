@@ -79,9 +79,9 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="p-0 flex-1 text-base-content bg-base-200">
+      <main className="p-0 flex-1 flex flex-col text-base-content bg-base-200">
         <Hero onPetCreated={fetchPets} />
-        <div>
+        <div className="min-h-100px flex-1">
           <PetList
             pets={pets}
             onStatusChange={handleStatusChange}

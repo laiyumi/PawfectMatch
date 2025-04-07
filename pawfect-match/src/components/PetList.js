@@ -120,10 +120,18 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
         setCurrentPage(1); // Reset to first page when filter changes
     };
 
+    const handleClearFilters = () => {
+        setSearchQuery('');
+        setSelectedStatus('all');
+        setSelectedAnimalTypes(animalTypes.map(type => type.id));
+        setPrioritySort('none');
+        setCurrentPage(1);
+    };
+
     return (
         <div className="container mx-auto px-4 py-8">
             <h2 className={`text-2xl text-center ${chewy.className}`}>Pets List <span>({filteredPets.length})</span></h2>
-            <div className="flex max-xs:flex-col xs:flex-col md:flex-row justify-between items-center my-8 gap-4">
+            <div className="flex flex-col sm:flex-row justify-between items-center my-8 gap-4">
                 {/* search bar */}
                 <SearchBar
                     value={searchQuery}
@@ -165,6 +173,14 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
                             <option value="asc">Low to High</option>
                         </select>
                     )}
+
+                    {/* clear filters */}
+                    <button
+                        className="btn btn-outline xs:btn-xs lg:btn-md max-xs:w-full"
+                        onClick={handleClearFilters}
+                    >
+                        Clear Filters
+                    </button>
                 </div>
 
                 {/* toggle table/card view */}

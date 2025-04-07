@@ -23,14 +23,19 @@ export default function TableView({
     const sortedPets = [...pets].sort((a, b) => {
         if (!sortConfig.key) return 0;
 
-        let aValue =
-            sortConfig.key === "animalType"
-                ? a.animalType.name.toLowerCase()
-                : a[sortConfig.key].toLowerCase();
-        let bValue =
-            sortConfig.key === "animalType"
-                ? b.animalType.name.toLowerCase()
-                : b[sortConfig.key].toLowerCase();
+        let aValue, bValue;
+
+        if (sortConfig.key === "animalType") {
+            aValue = a.animalType.name.toLowerCase();
+            bValue = b.animalType.name.toLowerCase();
+        } else if (sortConfig.key === "priority") {
+            const priorityOrder = { HIGH: 3, MEDIUM: 2, LOW: 1 };
+            aValue = priorityOrder[a.priority];
+            bValue = priorityOrder[b.priority];
+        } else {
+            aValue = a[sortConfig.key].toLowerCase();
+            bValue = b[sortConfig.key].toLowerCase();
+        }
 
         if (aValue < bValue) {
             return sortConfig.direction === "asc" ? -1 : 1;
