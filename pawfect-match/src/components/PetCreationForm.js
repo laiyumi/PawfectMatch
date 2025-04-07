@@ -61,7 +61,11 @@ export default function PetCreationForm({ onPetCreated }) {
     };
 
     const handleCreateAnimalType = async () => {
-        if (!newTypeName.trim()) return;
+        if (!newTypeName.trim()) {
+            // setMessageKey(prev => prev + 1);
+            // setMessage({ text: "Animal type name is required", type: "error" });
+            return;
+        };
         try {
             const response = await fetch("/api/animal-types", {
                 method: "POST",
@@ -147,6 +151,7 @@ export default function PetCreationForm({ onPetCreated }) {
                             <div className="flex-1 flex gap-2 flex-col sm:flex-row items-stretch">
                                 <input
                                     type="text"
+                                    required
                                     value={newTypeName}
                                     onChange={(e) => setNewTypeName(e.target.value)}
                                     className="input input-bordered flex-1 input-md min-h-[2.5rem]"

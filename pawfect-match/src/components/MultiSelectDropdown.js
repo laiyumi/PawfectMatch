@@ -3,6 +3,14 @@ import { useState, useRef, useEffect } from 'react';
 export default function MultiSelectDropdown({ options, selectedValues, onChange }) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const initialMount = useRef(true);
+
+    useEffect(() => {
+        if (initialMount.current && selectedValues.length === 0 && options.length > 0) {
+            onChange(options.map(opt => opt.id));
+            initialMount.current = false;
+        }
+    }, [selectedValues, options, onChange]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -31,7 +39,7 @@ export default function MultiSelectDropdown({ options, selectedValues, onChange 
             >
                 <span className="truncate">
                     {selectedValues.length === 0 ? 'Select Animal Types' :
-                        selectedValues.length === options.length ? 'All Types' :
+                        selectedValues.length === options.length ? 'All Animal Types' :
                             `${selectedValues.length} type(s) selected`}
                 </span>
             </button>
@@ -45,7 +53,8 @@ export default function MultiSelectDropdown({ options, selectedValues, onChange 
                                 className="checkbox xs:checkbox-sm"
                                 checked={selectedValues.length === options.length}
                                 onChange={() => {
-                                    onChange(selectedValues.length === options.length ? [] : options.map(opt => opt.id));
+                                    const allSelected = selectedValues.length === options.length;
+                                    onChange(allSelected ? [] : options.map(opt => opt.id));
                                 }}
                             />
                             <span className="ml-2 xs:text-xs">Select All</span>
@@ -63,9 +72,8 @@ export default function MultiSelectDropdown({ options, selectedValues, onChange 
                                     onChange={() => handleToggle(option.id)}
                                 />
                                 <span className="ml-2 xs:text-xs">
-                                    {/* {option.name} */}
-                                    {option.name}
-                                    {option._count?.pets ? ` (${option._count.pets})` : ''}
+                                    {option.name} {option._filteredCount ? `(${option._filteredCount})` : '(0)'}
+
                                 </span>
                             </label>
                         ))}
@@ -74,4 +82,4 @@ export default function MultiSelectDropdown({ options, selectedValues, onChange 
             )}
         </div>
     );
-} 
+}

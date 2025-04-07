@@ -25,7 +25,7 @@ export default function Home() {
     } catch (error) {
       console.error("Error fetching pets:", error);
     } finally {
-      // Ensure loading shows for at least 1 second
+      // For testing: ensure loading shows for at least 1 second
       setTimeout(() => setLoading(false), 2000);
     }
   };
@@ -61,7 +61,6 @@ export default function Home() {
   };
 
   const handleDelete = async (id) => {
-
     try {
       const response = await fetch(`/api/pets/${id}`, {
         method: "DELETE",

@@ -12,6 +12,7 @@ const chewy = Chewy({
 });
 
 export default function PetList({ pets, onStatusChange, onPriorityChange, onDelete }) {
+
     const [currentPage, setCurrentPage] = useState(1);
     const [isTableView, setIsTableView] = useState(false);
     const [prioritySort, setPrioritySort] = useState('none'); // 'none', 'asc', or 'desc'
@@ -20,26 +21,6 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('all');
     const petsPerPage = 9;
-
-    // Count the number of pets for each status
-    const statusCounts = pets.reduce((acc, pet) => {
-        acc[pet.status] = (acc[pet.status] || 0) + 1;
-        return acc;
-    }, {});
-
-    const statusOptions = [
-        { value: 'all', label: "All Statuses" },
-        { value: 'AVAILABLE', label: `Available (${statusCounts['AVAILABLE'] || 0})` },
-        { value: 'ADOPTED', label: `Adopted (${statusCounts['ADOPTED'] || 0})` },
-        { value: 'IN_CARE', label: `In Care (${statusCounts['IN_CARE'] || 0})` }
-    ];
-
-    // Count the number of pets for each animal type
-    const animalTypeCounts = pets.reduce((acc, pet) => {
-        const typeId = pet.animalType.id;
-        acc[typeId] = (acc[typeId] || 0) + 1;
-        return acc;
-    }, {});
 
     // Fetch animal types
     useEffect(() => {
@@ -67,20 +48,55 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
             const matchesStatus = selectedStatus === 'all' || pet.status === selectedStatus;
 
             // Apply animal type filter for both views
-            const matchesType = selectedAnimalTypes.length === 0 ||
-                selectedAnimalTypes.includes(pet.animalType.id);
+            const matchesType = selectedAnimalTypes.includes(pet.animalType.id);
 
             return matchesSearch && matchesStatus && matchesType;
         });
 
-    // Sort pets by priority if needed (only for card view)
+    // Count the number of pets for each status
+    const statusCounts = pets
+        .filter(pet =>
+            (selectedAnimalTypes.length === 0 || selectedAnimalTypes.includes(pet.animalType.id)) &&
+            pet.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+        .reduce((acc, pet) => {
+            acc[pet.status] = (acc[pet.status] || 0) + 1;
+            return acc;
+        }, {});
+
+    const statusOptions = [
+        { value: 'all', label: "All Statuses" },
+        { value: 'AVAILABLE', label: `Available (${statusCounts['AVAILABLE'] || 0})` },
+        { value: 'ADOPTED', label: `Adopted (${statusCounts['ADOPTED'] || 0})` },
+        { value: 'IN_CARE', label: `In Care (${statusCounts['IN_CARE'] || 0})` }
+    ];
+
+    // Count the number of pets for each animal type
+    const typeCounts = pets
+        .filter(pet =>
+            (selectedStatus === 'all' || pet.status === selectedStatus) &&
+            pet.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+        .reduce((acc, pet) => {
+            const typeId = pet.animalType.id;
+            acc[typeId] = (acc[typeId] || 0) + 1;
+            return acc;
+        }, {});
+
+    const animalTypesWithCounts = animalTypes.map(type => ({
+        ...type,
+        label: `${type.name} (${typeCounts[type.id] || 0})`,
+        _filteredCount: typeCounts[type.id] || 0
+    }));
+
+    // Sort pets by priority for card view
     const sortedPets = [...filteredPets].sort((a, b) => {
         if (!isTableView && prioritySort !== 'none') {
             const priorityOrder = { HIGH: 3, MEDIUM: 2, LOW: 1 };
             const diff = priorityOrder[a.priority] - priorityOrder[b.priority];
             return prioritySort === 'asc' ? diff : -diff;
         }
-        return 0;
+        return new Date(b.createdAt) - new Date(a.createdAt); // Default sort by createdAt
     });
 
     // Only paginate for card view
@@ -129,7 +145,7 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
 
                     {/* animal types dropdown */}
                     <MultiSelectDropdown
-                        options={animalTypes}
+                        options={animalTypesWithCounts}
                         selectedValues={selectedAnimalTypes}
                         onChange={(values) => {
                             setSelectedAnimalTypes(values);
