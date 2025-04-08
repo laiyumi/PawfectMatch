@@ -30,11 +30,6 @@ export default function PetList({ pets, onStatusChange, onPriorityChange, onDele
                 const data = await response.json();
                 if (data.success) {
                     setAnimalTypes(data.data);
-
-                    // Add this line to auto-select all types if none selected
-                    // setSelectedAnimalTypes(prev =>
-                    //     prev.length === 0 ? data.data.map(type => type.id) : prev
-                    // );
                 }
             } catch (error) {
                 console.error("Error fetching animal types:", error);
